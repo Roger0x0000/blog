@@ -1,0 +1,96 @@
+http://www.rongkangwen.cn/
+
+
+ssh-keygen -t rsa -C "Roger0x0000@outlook.com"
+
+git config --global user.name "Roger0x0000"
+git config --global user.email Roger0x0000@outlook.com
+
+
+
+
+
+部署教程
+https://www.jianshu.com/p/1f199ee49e4c
+
+
+
+运行本地开发环境
+
+npm run dev
+
+
+部署
+https://www.jianshu.com/p/f926e448e94c
+
+#gitbash
+yarn deploy
+
+
+
+
+# VS Code 打开终端快捷键："CTRL" + "`" 
+
+#安装yarn指令
+
+npm install -g yarn
+
+# 检查yarn版本指令
+
+yarn -version
+
+
+
+# install dependency
+
+yarn install
+
+
+
+
+# 安装数学公式
+# https://www.cnblogs.com/nerd-/p/15758896.html
+
++ 安装数学公式
+
+npm i markdown-it-texmath
+npm i katex
+
+
++ 修改config.js文件
+  markdown: {
+    lineNumbers: true,
+    anchor: { permalink: false },
+    toc: {includeLevel: [1,2]},
+    extendMarkdown: md => {
+      md.use(require('markdown-it-texmath'))
+    }
+  }
+
++在head中导入样式文件
+    ['link', {rel:'stylesheet', href:'https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css'}],
+    ['link', {rel:'stylesheet', href:'https://gitcdn.xyz/cdn/goessner/markdown-it-texmath/master/texmath.css'}],
+    ['script', {src: 'https://github.com/markdown-it/markdown-it/blob/master/bin/markdown-it.js'}],
+    ['script', {src: 'https://gitcdn.xyz/cdn/goessner/markdown-it-texmath/master/texmath.js'}],
+    ['script', {src: 'https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js'}],
+
+
+
+#安裝 live2d
+
+npm i vuepress-plugin-live2d -S
+
++ 修改plugins.js文件
+
+  [
+      //https://github.com/yanjun0501/vuepress-plugin-live2d
+    "vuepress-plugin-live2d",
+    {
+        //
+       // ['z16','Epsilon2.1','izumi','koharu','shizuku','miku', 'hijiki','tororo']
+      //"modelName": 'izumi',
+      "modelName": ['z16','Epsilon2.1','izumi','koharu','shizuku','miku', 'hijiki','tororo'],
+      "mobileShow": true,
+      "position":'left', //right
+    },
+  ],

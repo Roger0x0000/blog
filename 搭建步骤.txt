@@ -1,0 +1,31 @@
+
+#安装Node
+https://nodejs.org/zh-cn/
+
+#cmd 安装 yarn
+
+npm install -g yarn
+
+#cmd测试yarn的版本
+
+yarn --version
+
+
+#下载主题的代码仓库
+
+git clone https://github.com/xugaoyi/vuepress-theme-vdoing.git
+
+#初始化： ctrl+`打开vscode的终端；输入npm install，安装node_modules
+
+npm install
+
+#vscode的终端 运行本地开发环境
+
+npm run dev
+
+
+#部署使用gitbash输入指令
+
+yarn deploy
+
+
