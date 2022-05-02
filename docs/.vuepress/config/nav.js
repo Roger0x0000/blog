@@ -25,8 +25,9 @@ module.exports = [
     link: '/more/',
     items: [
       { text: '学习', link: '/pages/f2a556/' },
+      { text: '后期调色笔记', link: '/pages/20220418223000/' },
       { text: '心情杂货', link: '/pages/2d615df9a36a98ed/' },
-      { text: '实用技巧', link: '/pages/baaa02/' },
+      { text: '实用技巧', link: '/pages/20220315090000/' },
       { text: '友情链接', link: '/friends/' },
     ],
   },
