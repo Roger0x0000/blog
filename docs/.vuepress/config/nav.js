@@ -7,7 +7,6 @@ module.exports = [
     items: [
       // 说明：以下所有link的值只是在相应md文件定义的永久链接（不是什么特殊生成的编码）。另外，注意结尾是有斜杠的
       { text: '《单片机》笔记', link: '/note/mcu/' },
-      { text: '《Git》',link: '/note/git/',},
       { text: '《WinForm》笔记',link: '/note/WinForm/',},
       { text: '《逻辑英语》笔记',link: '/note/LogicalEnglish/',},
     ],
@@ -24,9 +23,7 @@ module.exports = [
     text: '更多',
     link: '/more/',
     items: [
-      { text: '学习', link: '/pages/f2a556/' },
       { text: '后期调色笔记', link: '/pages/20220418223000/' },
-      { text: '心情杂货', link: '/pages/2d615df9a36a98ed/' },
       { text: '实用技巧', link: '/pages/20220315090000/' },
       { text: '友情链接', link: '/friends/' },
     ],
