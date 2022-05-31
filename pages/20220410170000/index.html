@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>CRC-16-CCITT算法 | Roger</title>
+    <meta name="generator" content="VuePress 1.8.0">
+    <link rel="icon" href="/blog/img/favicon.ico">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
+    <link rel="stylesheet" href="https://gitcdn.xyz/cdn/goessner/markdown-it-texmath/master/texmath.css">
+    <script src="https://github.com/markdown-it/markdown-it/blob/master/bin/markdown-it.js"></script>
+    <script src="https://gitcdn.xyz/cdn/goessner/markdown-it-texmath/master/texmath.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
+    <script data-ad-client="ca-pub-7828333725993554" async="async" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <meta name="description" content="电源学习博客,简洁至上,专注电源学习与总结。C#,Python,MCU,DSC,PyQt,git,github等技术文章。">
+    <meta name="keywords" content="电源博客,个人技术博客,MCU,技术文档,学习,DSC,python,C#,git,github,markdown">
+    <meta name="baidu-site-verification" content="7F55weZDDc">
+    <meta name="theme-color" content="#11a8cd">
+    <link rel="preload" href="/blog/assets/css/0.styles.ec520827.css" as="style"><link rel="preload" href="/blog/assets/js/app.a0503f39.js" as="script"><link rel="preload" href="/blog/assets/js/2.12b284b1.js" as="script"><link rel="preload" href="/blog/assets/js/15.e5b9bfe7.js" as="script"><link rel="prefetch" href="/blog/assets/js/10.550adfb5.js"><link rel="prefetch" href="/blog/assets/js/11.82acbc2c.js"><link rel="prefetch" href="/blog/assets/js/12.22b8d280.js"><link rel="prefetch" href="/blog/assets/js/13.42fca3f3.js"><link rel="prefetch" href="/blog/assets/js/14.762874a5.js"><link rel="prefetch" href="/blog/assets/js/16.54ce3a58.js"><link rel="prefetch" href="/blog/assets/js/17.cd3d327b.js"><link rel="prefetch" href="/blog/assets/js/18.b6bbea36.js"><link rel="prefetch" href="/blog/assets/js/19.863190f1.js"><link rel="prefetch" href="/blog/assets/js/20.be707cc1.js"><link rel="prefetch" href="/blog/assets/js/21.85039a44.js"><link rel="prefetch" href="/blog/assets/js/22.4fc7c710.js"><link rel="prefetch" href="/blog/assets/js/23.51b2cfb0.js"><link rel="prefetch" href="/blog/assets/js/24.faead9a1.js"><link rel="prefetch" href="/blog/assets/js/25.b83bcd1b.js"><link rel="prefetch" href="/blog/assets/js/26.49ebc628.js"><link rel="prefetch" href="/blog/assets/js/27.dd64150d.js"><link rel="prefetch" href="/blog/assets/js/28.676564d2.js"><link rel="prefetch" href="/blog/assets/js/29.cee8caa6.js"><link rel="prefetch" href="/blog/assets/js/3.dba7734a.js"><link rel="prefetch" href="/blog/assets/js/30.effbf9f3.js"><link rel="prefetch" href="/blog/assets/js/31.508b1eeb.js"><link rel="prefetch" href="/blog/assets/js/32.865f75a2.js"><link rel="prefetch" href="/blog/assets/js/33.a8dcc543.js"><link rel="prefetch" href="/blog/assets/js/34.168a68e2.js"><link rel="prefetch" href="/blog/assets/js/35.56dac13d.js"><link rel="prefetch" href="/blog/assets/js/36.1905ec4e.js"><link rel="prefetch" href="/blog/assets/js/37.f95287ef.js"><link rel="prefetch" href="/blog/assets/js/38.42913153.js"><link rel="prefetch" href="/blog/assets/js/39.3dc4d95f.js"><link rel="prefetch" href="/blog/assets/js/4.bf0c119a.js"><link rel="prefetch" href="/blog/assets/js/40.5894f8a9.js"><link rel="prefetch" href="/blog/assets/js/41.8f95f387.js"><link rel="prefetch" href="/blog/assets/js/42.286f0288.js"><link rel="prefetch" href="/blog/assets/js/43.edaf75b9.js"><link rel="prefetch" href="/blog/assets/js/44.81a6f9be.js"><link rel="prefetch" href="/blog/assets/js/45.0021fa72.js"><link rel="prefetch" href="/blog/assets/js/46.beebc4c0.js"><link rel="prefetch" href="/blog/assets/js/47.35d0b0ad.js"><link rel="prefetch" href="/blog/assets/js/48.0cf4241d.js"><link rel="prefetch" href="/blog/assets/js/49.27e2f90b.js"><link rel="prefetch" href="/blog/assets/js/5.cb06bd32.js"><link rel="prefetch" href="/blog/assets/js/50.3c5a5d48.js"><link rel="prefetch" href="/blog/assets/js/51.858da25f.js"><link rel="prefetch" href="/blog/assets/js/52.58e6a816.js"><link rel="prefetch" href="/blog/assets/js/53.e3e0b84e.js"><link rel="prefetch" href="/blog/assets/js/54.13468f31.js"><link rel="prefetch" href="/blog/assets/js/55.90ef2271.js"><link rel="prefetch" href="/blog/assets/js/56.06f24f25.js"><link rel="prefetch" href="/blog/assets/js/57.9ea27d5d.js"><link rel="prefetch" href="/blog/assets/js/58.93f96d49.js"><link rel="prefetch" href="/blog/assets/js/59.cd31c3e6.js"><link rel="prefetch" href="/blog/assets/js/6.1b8e82d4.js"><link rel="prefetch" href="/blog/assets/js/60.0b9d3f7f.js"><link rel="prefetch" href="/blog/assets/js/61.8911c6da.js"><link rel="prefetch" href="/blog/assets/js/62.793e4ef7.js"><link rel="prefetch" href="/blog/assets/js/63.3cd030a3.js"><link rel="prefetch" href="/blog/assets/js/64.23069af7.js"><link rel="prefetch" href="/blog/assets/js/65.e3c052fe.js"><link rel="prefetch" href="/blog/assets/js/66.501d19d9.js"><link rel="prefetch" href="/blog/assets/js/67.b1dce947.js"><link rel="prefetch" href="/blog/assets/js/68.64883098.js"><link rel="prefetch" href="/blog/assets/js/69.0e87afb6.js"><link rel="prefetch" href="/blog/assets/js/7.33a8ae03.js"><link rel="prefetch" href="/blog/assets/js/8.fb4b94b3.js"><link rel="prefetch" href="/blog/assets/js/9.29ddfa41.js">
+    <link rel="stylesheet" href="/blog/assets/css/0.styles.ec520827.css">
+  </head>
+  <body class="theme-mode-light">
+    <div id="app" data-server-rendered="true"><div class="theme-container sidebar-open have-rightmenu"><header class="navbar blur"><div title="目录" class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/blog/" class="home-link router-link-active"><img src="/blog/img/EB-logo.png" alt="Roger" class="logo"> <span class="site-name can-hide">Roger</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/blog/" class="nav-link">首页</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="笔记" class="dropdown-title"><a href="/blog/note/" class="link-title">笔记</a> <span class="title" style="display:none;">笔记</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/blog/note/mcu/" class="nav-link">《单片机》笔记</a></li><li class="dropdown-item"><!----> <a href="/blog/note/simetrix/" class="nav-link">《SIMetrix-SIMPLIS》笔记</a></li><li class="dropdown-item"><!----> <a href="/blog/note/WinForm/" class="nav-link">《WinForm》笔记</a></li><li class="dropdown-item"><!----> <a href="/blog/note/LogicalEnglish/" class="nav-link">《逻辑英语》笔记</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="技术" class="dropdown-title"><a href="/blog/technology/" class="link-title">技术</a> <span class="title" style="display:none;">技术</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/blog/pages/9a7ee40fc232253e/" class="nav-link">技术文档</a></li><li class="dropdown-item"><!----> <a href="/blog/pages/pfc20211027221400/" class="nav-link">电源文集</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="更多" class="dropdown-title"><a href="/blog/more/" class="link-title">更多</a> <span class="title" style="display:none;">更多</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/blog/pages/20220418223000/" class="nav-link">后期调色笔记</a></li><li class="dropdown-item"><!----> <a href="/blog/pages/20220315090000/" class="nav-link">实用技巧</a></li><li class="dropdown-item"><!----> <a href="/blog/friends/" class="nav-link">友情链接</a></li></ul></div></div><div class="nav-item"><a href="/blog/about/" class="nav-link">关于</a></div><div class="nav-item"><a href="/blog/pages/beb6c0bd8a66cea6/" class="nav-link">书签</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="索引" class="dropdown-title"><a href="/blog/archives/" class="link-title">索引</a> <span class="title" style="display:none;">索引</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/blog/categories/" class="nav-link">分类</a></li><li class="dropdown-item"><!----> <a href="/blog/tags/" class="nav-link">标签</a></li><li class="dropdown-item"><!----> <a href="/blog/archives/" class="nav-link">归档</a></li></ul></div></div> <a href="https://github.com/Roger0x0000/blog" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar" style="display:none;"><div class="blogger"><img src="https://cdn.jsdelivr.net/gh/Roger0x0000/image_store@master/blog/20211008192606.jpg"> <div class="blogger-info"><h3>Roger</h3> <span>电源界的小学生</span></div></div> <nav class="nav-links"><div class="nav-item"><a href="/blog/" class="nav-link">首页</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="笔记" class="dropdown-title"><a href="/blog/note/" class="link-title">笔记</a> <span class="title" style="display:none;">笔记</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/blog/note/mcu/" class="nav-link">《单片机》笔记</a></li><li class="dropdown-item"><!----> <a href="/blog/note/simetrix/" class="nav-link">《SIMetrix-SIMPLIS》笔记</a></li><li class="dropdown-item"><!----> <a href="/blog/note/WinForm/" class="nav-link">《WinForm》笔记</a></li><li class="dropdown-item"><!----> <a href="/blog/note/LogicalEnglish/" class="nav-link">《逻辑英语》笔记</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="技术" class="dropdown-title"><a href="/blog/technology/" class="link-title">技术</a> <span class="title" style="display:none;">技术</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/blog/pages/9a7ee40fc232253e/" class="nav-link">技术文档</a></li><li class="dropdown-item"><!----> <a href="/blog/pages/pfc20211027221400/" class="nav-link">电源文集</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="更多" class="dropdown-title"><a href="/blog/more/" class="link-title">更多</a> <span class="title" style="display:none;">更多</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/blog/pages/20220418223000/" class="nav-link">后期调色笔记</a></li><li class="dropdown-item"><!----> <a href="/blog/pages/20220315090000/" class="nav-link">实用技巧</a></li><li class="dropdown-item"><!----> <a href="/blog/friends/" class="nav-link">友情链接</a></li></ul></div></div><div class="nav-item"><a href="/blog/about/" class="nav-link">关于</a></div><div class="nav-item"><a href="/blog/pages/beb6c0bd8a66cea6/" class="nav-link">书签</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="索引" class="dropdown-title"><a href="/blog/archives/" class="link-title">索引</a> <span class="title" style="display:none;">索引</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/blog/categories/" class="nav-link">分类</a></li><li class="dropdown-item"><!----> <a href="/blog/tags/" class="nav-link">标签</a></li><li class="dropdown-item"><!----> <a href="/blog/archives/" class="nav-link">归档</a></li></ul></div></div> <a href="https://github.com/Roger0x0000/blog" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></nav>  <ul class="sidebar-links"><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading open"><span>技术文档</span> <span class="arrow down"></span></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/blog/pages/2022011512000000/" class="sidebar-link">一阶低通滤波器计算和仿真</a></li><li><a href="/blog/pages/20220112221200/" class="sidebar-link">CRC8-ATM的计算算法</a></li><li><a href="/blog/pages/202112132212/" class="sidebar-link">CRC16-ITU的计算算法</a></li><li><a href="/blog/pages/20220115225000/" class="sidebar-link">Vuepress-Theme-Vdoing设置Math公式</a></li><li><a href="/blog/pages/20220116190000/" class="sidebar-link">基于OPA的I型补偿器计算</a></li><li><a href="/blog/pages/20220116193000/" class="sidebar-link">基于OPA的II型补偿器计算</a></li><li><a href="/blog/pages/20220116213000/" class="sidebar-link">基于OPA的III型补偿器计算</a></li><li><a href="/blog/pages/ad247c4332211551/" class="sidebar-link">Markdown使用教程</a></li><li><a href="/blog/pages/9a7ee40fc232253e/" class="sidebar-link">Git使用手册</a></li><li><a href="/blog/pages/20220410170000/" aria-current="page" class="active sidebar-link">CRC-16-CCITT算法</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/blog/pages/20220410170000/#crc-16-ccitt算法" class="sidebar-link">CRC-16-CCITT算法</a></li><li class="sidebar-sub-header"><a href="/blog/pages/20220410170000/#查表" class="sidebar-link">查表</a></li><li class="sidebar-sub-header"><a href="/blog/pages/20220410170000/#函数计算" class="sidebar-link">函数计算</a></li></ul></li><li><a href="/blog/pages/20220502163100/" class="sidebar-link">PID算法</a></li></ul></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>电源文集</span> <span class="arrow right"></span></p> <!----></section></li></ul> <div class="sidebar-slot sidebar-slot-bottom"><!-- 正方形 -->
+      <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-7828333725993554"
+          data-ad-slot="3508773082"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+      <script>
+          (adsbygoogle = window.adsbygoogle || []).push({});
+      </script></div></aside> <div><main class="page"><div class="theme-vdoing-wrapper "><div class="articleInfo-wrap" data-v-1cd794fe><div class="articleInfo" data-v-1cd794fe><ul class="breadcrumbs" data-v-1cd794fe><li data-v-1cd794fe><a href="/blog/" title="首页" class="iconfont icon-home router-link-active" data-v-1cd794fe></a></li> <li data-v-1cd794fe><a href="/blog/technology" title="技术-目录页" data-v-1cd794fe>技术</a></li> <li data-v-1cd794fe><a href="/blog/technology/#技术文档" title="技术#技术文档" data-v-1cd794fe>技术文档</a></li> <!----></ul> <div class="info" data-v-1cd794fe><div title="作者" class="author iconfont icon-touxiang" data-v-1cd794fe><a href="https://github.com/Roger0x0000" target="_blank" title="作者" class="beLink" data-v-1cd794fe>Roger</a></div> <div title="创建时间" class="date iconfont icon-riqi" data-v-1cd794fe><a href="javascript:;" data-v-1cd794fe>2022-04-10</a></div> <!----></div></div></div> <!----> <div class="content-wrapper"><div class="right-menu-wrapper"><div class="right-menu-margin"><div class="right-menu-content"></div></div></div> <h1><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAAXNSR0IArs4c6QAABGpJREFUSA3tVVtoXFUU3fvOI53UlmCaKIFmwEhsE7QK0ipFEdHEKpXaZGrp15SINsXUWvBDpBgQRKi0+KKoFeJHfZA+ED9KKoIU2gYD9UejTW4rVIzm0VSTziPzuNu1z507dibTTjL4U/DAzLn3nL3X2o91ziX6f9wMFdh6Jvbm9nNSV0msViVO6tN1Rm7NMu2OpeJ9lWBUTDxrJbYTS0hInuwciu9eLHlFxCLCZEk3MegsJmZ5K/JD6t7FkFdEvGUo1g7qJoG3MHImqRIn8/nzY1K9UPKKiJmtnUqHVE3Gbuay6vJE/N2FEmuxFjW2nUuE0yQXRRxLiTUAzs36zhZvOXJPdX850EVnnLZkB8prodQoM5JGj7Xk2mvC7JB8tG04Ef5PiXtG0UtxupRQSfTnBoCy554x18yJHI6I+G5Eru4LHmPJZEQsrvPUbMiA8G/WgMK7w7I+ez7++o2ANfbrjvaOl1tFMs+htG3IrZH9/hDX1Pr8Tc0UvH8tcX29KzAgIGcEkINyW5BF9x891hw6VYqgJHEk0huccS7vh3C6gTiODL+26huuBtbct8eZnqLML8PkxGYpuPZBqtqwkSjgc4mB5gbgig5i+y0UDK35LMxXisn9xQtK+nd26gTIHsHe/oblK/b29fUmN/8Y+9jAQrnBp56m1LcDlDp9irKTExSKduXJVWSqdBMA08pEJnEIOB3FPPMybu/oeV8zFeYN3xx576Q6RH+VmplE4ncQV5v+5rzSoyOU7PuEAg8g803PwBJ0CExno/jcMbN8tONYeOmHiuUNryvm3fRUy4tMPVLdAGkUhNWuggGrJcXPv+ouCjz0MKUHz1J2/E8IC9nqTabcxgaBYM0hPhD5Y65FsbxRQKxCQrDjDctW7PUM3HuZunFyifSAqEfuzCp48Il24luWUWZoyJCaPR82jE0+kFA643wRFVni4RYSq3ohJO2pZ7B5dO4xkDWbEpossJPLSrPjYID8rS2UHTlvyNxqIGsg674XJJ7vnh5L7PNwC4hh2sjCI96mzszOTpxLF0T7l88Yz7lAuK6OnL8gXLOnTvpzSb22YG8W7us3jSebFHeeqnXRG1vt+MoUM84LQIBmMsCTAcOauTh0T0l0neQK7m2bLMt2mGxU3HYssS0J2cdv5wljlPsrIuZLAG/2DOZIXgCYT8uMGZN+e2kSirfxZOPCsC0f24nTZzspnVn9VePS1Z5vubmAGGXG8ZFno9Hel0yfA5ZPhF7Dh972BQJ2qCpgH67lmWtBYbvk6sz02wjky2vXyz0XErP/kFB619js1BtwfOV4OPRqOQBjy3Qbk18vigUPPSD5ceHnwck7W9bhAqZdd7SuG7w4/P2F/GaJh8c7e9qgow+Q7cGBo+98WsLkuktFqiZabtXuQTu/Y5ETbR0v7tNSFnvrmu6pjdoan2KjMu8q/Hmj1EfCO2ZGfEIbIXKUlw8qaX9/b2oeSJmFksSeT/Fn0V3nSypChh4Gjh74ybO9aeZ/AN2dwciu2/MhAAAAAElFTkSuQmCC">
+          CRC-16-CCITT算法
+        </h1> <div class="page-slot page-slot-top"><!-- 固定100% * 90px可显示，max-height:90px未见显示-->
+     <ins class="adsbygoogle"
+          style="display:inline-block;width:100%;max-height:90px"
+          data-ad-client="ca-pub-7828333725993554"
+          data-ad-slot="6625304284"></ins>
+      <script>
+          (adsbygoogle = window.adsbygoogle || []).push({});
+      </script></div> <div class="theme-vdoing-content content__default"><h2 id="crc-16-ccitt算法">CRC-16-CCITT算法</h2> <ul><li>The CRC-16-CCITT polynomial is 0x1021.</li> <li>The initial register value must be 0xFFFF</li></ul> <h2 id="查表">查表</h2> <div class="language-C# line-numbers-mode"><pre class="language-text"><code>    /*
+    * This is a fork of the CRC16 library COPYRIGHT(c) Emilie Laverge
+    * published at [https://developer.mbed.org/users/EmLa/code/CRC16/]
+    *
+    * Modified by Zoltan Hudak to implement CRC16-CCITT
+    * using the polynomial 0x1021: X^16 + X^15 + X^2 + 1.
+    * Default initial CRC value = 0x0000
+    */
+
+    UInt16[] crc16_ccitt_table = {
+        0x0000, 0x1021, 0x2042, 0x3063, 0x4084, 0x50A5, 0x60C6, 0x70E7, 
+        0x8108, 0x9129, 0xA14A, 0xB16B, 0xC18C, 0xD1AD, 0xE1CE, 0xF1EF, 
+        0x1231, 0x0210, 0x3273, 0x2252, 0x52B5, 0x4294, 0x72F7, 0x62D6, 
+        0x9339, 0x8318, 0xB37B, 0xA35A, 0xD3BD, 0xC39C, 0xF3FF, 0xE3DE, 
+        0x2462, 0x3443, 0x0420, 0x1401, 0x64E6, 0x74C7, 0x44A4, 0x5485, 
+        0xA56A, 0xB54B, 0x8528, 0x9509, 0xE5EE, 0xF5CF, 0xC5AC, 0xD58D, 
+        0x3653, 0x2672, 0x1611, 0x0630, 0x76D7, 0x66F6, 0x5695, 0x46B4, 
+        0xB75B, 0xA77A, 0x9719, 0x8738, 0xF7DF, 0xE7FE, 0xD79D, 0xC7BC, 
+        0x48C4, 0x58E5, 0x6886, 0x78A7, 0x0840, 0x1861, 0x2802, 0x3823, 
+        0xC9CC, 0xD9ED, 0xE98E, 0xF9AF, 0x8948, 0x9969, 0xA90A, 0xB92B, 
+        0x5AF5, 0x4AD4, 0x7AB7, 0x6A96, 0x1A71, 0x0A50, 0x3A33, 0x2A12, 
+        0xDBFD, 0xCBDC, 0xFBBF, 0xEB9E, 0x9B79, 0x8B58, 0xBB3B, 0xAB1A, 
+        0x6CA6, 0x7C87, 0x4CE4, 0x5CC5, 0x2C22, 0x3C03, 0x0C60, 0x1C41, 
+        0xEDAE, 0xFD8F, 0xCDEC, 0xDDCD, 0xAD2A, 0xBD0B, 0x8D68, 0x9D49, 
+        0x7E97, 0x6EB6, 0x5ED5, 0x4EF4, 0x3E13, 0x2E32, 0x1E51, 0x0E70, 
+        0xFF9F, 0xEFBE, 0xDFDD, 0xCFFC, 0xBF1B, 0xAF3A, 0x9F59, 0x8F78, 
+        0x9188, 0x81A9, 0xB1CA, 0xA1EB, 0xD10C, 0xC12D, 0xF14E, 0xE16F, 
+        0x1080, 0x00A1, 0x30C2, 0x20E3, 0x5004, 0x4025, 0x7046, 0x6067, 
+        0x83B9, 0x9398, 0xA3FB, 0xB3DA, 0xC33D, 0xD31C, 0xE37F, 0xF35E, 
+        0x02B1, 0x1290, 0x22F3, 0x32D2, 0x4235, 0x5214, 0x6277, 0x7256, 
+        0xB5EA, 0xA5CB, 0x95A8, 0x8589, 0xF56E, 0xE54F, 0xD52C, 0xC50D, 
+        0x34E2, 0x24C3, 0x14A0, 0x0481, 0x7466, 0x6447, 0x5424, 0x4405, 
+        0xA7DB, 0xB7FA, 0x8799, 0x97B8, 0xE75F, 0xF77E, 0xC71D, 0xD73C, 
+        0x26D3, 0x36F2, 0x0691, 0x16B0, 0x6657, 0x7676, 0x4615, 0x5634, 
+        0xD94C, 0xC96D, 0xF90E, 0xE92F, 0x99C8, 0x89E9, 0xB98A, 0xA9AB, 
+        0x5844, 0x4865, 0x7806, 0x6827, 0x18C0, 0x08E1, 0x3882, 0x28A3, 
+        0xCB7D, 0xDB5C, 0xEB3F, 0xFB1E, 0x8BF9, 0x9BD8, 0xABBB, 0xBB9A, 
+        0x4A75, 0x5A54, 0x6A37, 0x7A16, 0x0AF1, 0x1AD0, 0x2AB3, 0x3A92, 
+        0xFD2E, 0xED0F, 0xDD6C, 0xCD4D, 0xBDAA, 0xAD8B, 0x9DE8, 0x8DC9, 
+        0x7C26, 0x6C07, 0x5C64, 0x4C45, 0x3CA2, 0x2C83, 0x1CE0, 0x0CC1, 
+        0xEF1F, 0xFF3E, 0xCF5D, 0xDF7C, 0xAF9B, 0xBFBA, 0x8FD9, 0x9FF8, 
+        0x6E17, 0x7E36, 0x4E55, 0x5E74, 0x2E93, 0x3EB2, 0x0ED1, 0x1EF0
+    };
+
+    UInt16 calc_crc16_table(byte[] input, int length)
+    {
+        UInt16 crc = 0xFFFF; 
+
+        for (int i = 0; i &lt; length; i++)
+        {
+            UInt16 tableValue = crc16_ccitt_table[((crc &gt;&gt; 8) ^ input[i]) &amp; 0xFF];
+
+            crc = (UInt16)((crc &lt;&lt; 8) ^ tableValue);
+        }
+
+        return crc;
+    }
+
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br><span class="line-number">52</span><br><span class="line-number">53</span><br><span class="line-number">54</span><br><span class="line-number">55</span><br><span class="line-number">56</span><br><span class="line-number">57</span><br><span class="line-number">58</span><br></div></div><h2 id="函数计算">函数计算</h2> <div class="language-C# line-numbers-mode"><pre class="language-text"><code>    static UInt16 gen_crc16(byte[] u8Array, UInt16 u16Size)
+    {
+        UInt16 crcmask = 0xFFFF;
+        UInt16 crcxor = 0;
+        UInt16 polynom = 0x1021;
+        UInt16 i, j, c, bit;
+        UInt16 crc = 0x84CF, crchighbit = 0x8000;
+
+        for (i = 0; i &lt; u16Size; i++)
+        {
+
+            c = u8Array[i];
+            for (j = 0x80; j!=0; j &gt;&gt;= 1)
+            {
+
+                bit = (UInt16)(crc &amp; crchighbit);
+                crc &lt;&lt;= 1;
+                if ((c &amp; j)!= 0)
+                {
+                    crc |= 1;
+                }
+                if (bit != 0)
+                {
+                    crc ^= polynom;
+                }
+            }
+        }
+        crc = (UInt16)(crc &amp; 0xffff);
+        for (i = 0; i &lt; 16; i++)
+        {
+
+            bit = (UInt16)(crc &amp; crchighbit);
+            crc &lt;&lt;= 1;
+            if (bit != 0)
+            { 
+                crc ^= polynom; 
+            }
+        }
+
+        crc ^= crcxor;
+        crc &amp;= crcmask;
+        return (crc);
+    }
+
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br></div></div><h1 id="参考文档">参考文档</h1> <p><a href="https://os.mbed.com/users/hudakz/code/CRC16_CCITT/file/6ecc3a64bf7b/CRC16_CCITT.cpp/" target="_blank" rel="noopener noreferrer">CRC16_CCITT<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p> <p><a href="https://www.cnblogs.com/libra13179/p/7591907.html" target="_blank" rel="noopener noreferrer">CRC16-CCITT C语言代码<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p></div></div> <div class="page-slot page-slot-bottom"><!-- 横向自适应 -->
+      <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-7828333725993554"
+          data-ad-slot="6620245489"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+      <script>
+          (adsbygoogle = window.adsbygoogle || []).push({});
+      </script></div> <div class="page-edit"><div class="edit-link"><a href="https://github.com/Roger0x0000/blog/edit/master/docs/02.技术/01.技术文档/1001.CRC-16-CCITT算法.md" target="_blank" rel="noopener noreferrer">编辑</a> <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></div> <div class="tags"><a href="/blog/tags/?tag=CRC-16-CCITT" title="标签">#CRC-16-CCITT</a></div> <div class="last-updated"><span class="prefix">上次更新:</span> <span class="time">2022/05/02, 17:48:28</span></div></div> <div class="page-nav-wapper"><div class="page-nav-centre-wrap"><a href="/blog/pages/9a7ee40fc232253e/" class="page-nav-centre page-nav-centre-prev"><div class="tooltip">Git使用手册</div></a> <a href="/blog/pages/20220502163100/" class="page-nav-centre page-nav-centre-next"><div class="tooltip">PID算法</div></a></div> <div class="page-nav"><p class="inner"><span class="prev">
+        ←
+        <a href="/blog/pages/9a7ee40fc232253e/" class="prev">Git使用手册</a></span> <span class="next"><a href="/blog/pages/20220502163100/">PID算法</a>→
+      </span></p></div></div></div> <div class="article-list"><div class="article-title"><a href="/blog/archives/" class="iconfont icon-bi">最近更新</a></div> <div class="article-wrapper"><dl><dd>01</dd> <dt><a href="/blog/pages/20220531220000/"><div>对称加密-AES-256-CTR-C</div></a> <span>05-31</span></dt></dl><dl><dd>02</dd> <dt><a href="/blog/pages/20220531213030/"><div>对称加密-AES-256-CTR-Python</div></a> <span>05-31</span></dt></dl><dl><dd>03</dd> <dt><a href="/blog/pages/2022051410000/"><div>TextBox和RichTextBox绑定数据的方法</div></a> <span>05-14</span></dt></dl> <dl><dd></dd> <dt><a href="/blog/archives/" class="more">更多文章&gt;</a></dt></dl></div></div></main></div> <div class="footer"><div class="icons"><a href="mailto:Roger0x0000@outlook.com" title="发邮件" target="_blank" class="iconfont icon-youjian"></a><a href="https://github.com/Roger0x0000" title="GitHub" target="_blank" class="iconfont icon-github"></a><a href="https://music.163.com" title="听音乐" target="_blank" class="iconfont icon-erji"></a></div> 
+  Theme by
+  <a href="https://github.com/xugaoyi/vuepress-theme-vdoing" target="_blank" title="本站主题">Vdoing</a> 
+    | Copyright © 2021-2022
+    <span></span></div> <div class="buttons"><div title="返回顶部" class="button blur go-to-top iconfont icon-fanhuidingbu" style="display:none;"></div> <div title="去评论" class="button blur go-to-comment iconfont icon-pinglun" style="display:none;"></div> <div title="主题模式" class="button blur theme-mode-but iconfont icon-zhuti"><ul class="select-box" style="display:none;"><li class="iconfont icon-zidong">
+          跟随系统
+        </li><li class="iconfont icon-rijianmoshi">
+          浅色模式
+        </li><li class="iconfont icon-yejianmoshi">
+          深色模式
+        </li><li class="iconfont icon-yuedu">
+          阅读模式
+        </li></ul></div></div> <!----> <!----> <div class="custom-html-window custom-html-window-rb" style="display:;"><div class="custom-wrapper"><i class="close-but">×</i> <div><!-- 固定160*160px -->
+      <ins class="adsbygoogle"
+          style="display:inline-block;max-width:160px;max-height:160px"
+          data-ad-client="ca-pub-7828333725993554"
+          data-ad-slot="8377369658"></ins>
+      <script>
+          (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+      </div></div></div></div><div class="global-ui"><div></div><div class="container" data-v-0178ff65><canvas id="live2d" width="280" height="250" class="live2d-left" data-v-0178ff65></canvas></div></div></div>
+    <script src="/blog/assets/js/app.a0503f39.js" defer></script><script src="/blog/assets/js/2.12b284b1.js" defer></script><script src="/blog/assets/js/15.e5b9bfe7.js" defer></script>
+  </body>
+</html>
