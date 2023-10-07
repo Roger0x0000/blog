@@ -1,4 +1,5 @@
 ---
+date: 2021-10-02 11:00:00
 title: 主要功能与配置演示
 index: false
 icon: laptop-code
