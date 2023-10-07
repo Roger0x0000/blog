@@ -2,15 +2,15 @@
 # 这是文章的标题
 title: 页面配置
 # 你可以自定义封面图片
-cover: /assets/images/cover1.jpg
+cover: /assets/images/cover2.jpg
 # 这是页面的图标
 icon: file
 # 这是侧边栏的顺序
-order: 1
+order: 100
 # 设置作者
-author: Ms.Hope
+author: Roger.Huang
 # 设置写作时间
-date: 2020-01-01
+date: 2019-01-01
 # 一个页面可以有多个分类
 category:
   - 使用指南
@@ -19,13 +19,16 @@ tag:
   - 页面配置
   - 使用指南
 # 此页面会在文章列表置顶
-sticky: true
+sticky: false
 # 此页面会出现在文章收藏中
-star: true
+star: false
 # 你可以自定义页脚
 footer: 这是测试显示的页脚
 # 你可以自定义版权信息
 copyright: 无版权
+
+comment: false
+
 ---
 
 `more` 注释之前的内容被视为文章摘要。
@@ -36,8 +39,8 @@ copyright: 无版权
 
 你可以在 Markdown 的 Frontmatter 中设置页面信息。
 
-- 作者设置为 Ms.Hope。
-- 写作日期为 2020 年 1 月 1 日
+- 作者设置为 Roger.Huang。
+- 写作日期为 2019 年 1 月 1 日
 - 分类为 “使用指南”
 - 标签为 “页面配置” 和 “使用指南”
 
