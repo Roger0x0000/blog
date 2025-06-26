@@ -31,7 +31,7 @@ export default hopeTheme({
 
   // 博客相关
   blog: {
-    description: "一个数字电源开发者",
+    description: "一个数字电源爱好者",
     intro: "/intro.html",
     medias: {
         BiliBili: "https://space.bilibili.com/396088287",
