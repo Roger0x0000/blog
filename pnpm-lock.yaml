@@ -11,6 +11,9 @@ devDependencies:
   '@vuepress/bundler-vite':
     specifier: 2.0.0-rc.23
     version: 2.0.0-rc.23(sass-embedded@1.89.2)
+  katex:
+    specifier: ^0.16.22
+    version: 0.16.22
   sass-embedded:
     specifier: ^1.89.2
     version: 1.89.2
@@ -22,7 +25,7 @@ devDependencies:
     version: 2.0.0-rc.23(@vuepress/bundler-vite@2.0.0-rc.23)(vue@3.5.17)
   vuepress-theme-hope:
     specifier: 2.0.0-rc.93
-    version: 2.0.0-rc.93(markdown-it@14.1.0)(sass-embedded@1.89.2)(vuepress@2.0.0-rc.23)
+    version: 2.0.0-rc.93(katex@0.16.22)(markdown-it@14.1.0)(sass-embedded@1.89.2)(vuepress@2.0.0-rc.23)
 
 packages:
 
@@ -513,7 +516,7 @@ packages:
       upath: 2.0.1
     dev: true
 
-  /@mdit/plugin-katex-slim@0.22.0(markdown-it@14.1.0):
+  /@mdit/plugin-katex-slim@0.22.0(katex@0.16.22)(markdown-it@14.1.0):
     resolution: {integrity: sha512-Xt7Fb6gc54dlfT3qIDRGP9HdjxUQRZIHdLliCvI+xsn9ehgtZJCxelBgdOYCs1Sr5iX5QVvY41sm1K78G+Tung==}
     engines: {node: '>= 18'}
     peerDependencies:
@@ -528,6 +531,7 @@ packages:
       '@mdit/helper': 0.22.0(markdown-it@14.1.0)
       '@mdit/plugin-tex': 0.22.0(markdown-it@14.1.0)
       '@types/markdown-it': 14.1.2
+      katex: 0.16.22
       markdown-it: 14.1.0
     dev: true
 
@@ -1535,7 +1539,7 @@ packages:
       - typescript
     dev: true
 
-  /@vuepress/plugin-markdown-math@2.0.0-rc.109(markdown-it@14.1.0)(vuepress@2.0.0-rc.23):
+  /@vuepress/plugin-markdown-math@2.0.0-rc.109(katex@0.16.22)(markdown-it@14.1.0)(vuepress@2.0.0-rc.23):
     resolution: {integrity: sha512-ULCkI/c5xw3rXQ/GlRW+XzwU7u37dnV2TLRp5neiVpb1biP9lPUECGeuvfNZB9CxJBIxi9pRtKS+TstSwwd8nA==}
     peerDependencies:
       katex: ^0.16.21
@@ -1547,10 +1551,11 @@ packages:
       mathjax-full:
         optional: true
     dependencies:
-      '@mdit/plugin-katex-slim': 0.22.0(markdown-it@14.1.0)
+      '@mdit/plugin-katex-slim': 0.22.0(katex@0.16.22)(markdown-it@14.1.0)
       '@mdit/plugin-mathjax-slim': 0.23.1(markdown-it@14.1.0)
       '@types/markdown-it': 14.1.2
       '@vuepress/helper': 2.0.0-rc.109(vuepress@2.0.0-rc.23)
+      katex: 0.16.22
       vue: 3.5.17
       vuepress: 2.0.0-rc.23(@vuepress/bundler-vite@2.0.0-rc.23)(vue@3.5.17)
     transitivePeerDependencies:
@@ -2085,6 +2090,11 @@ packages:
     engines: {node: '>=20'}
     dev: true
 
+  /commander@8.3.0:
+    resolution: {integrity: sha512-OkTL9umf+He2DZkUq8f8J9of7yL6RJKI24dVITBmNfZBmri9zYZQrKkuXiKhyfPSu8tUhnVBB1iKXevvnlR4Ww==}
+    engines: {node: '>= 12'}
+    dev: true
+
   /connect-history-api-fallback@2.0.0:
     resolution: {integrity: sha512-U73+6lQFmfiNPrYbXqr6kZ1i1wiRqXnp2nhMsINseWXO8lDau0LGEffJ8kQi4EjLZympVgRdvqjAgiZ1tgzDDA==}
     engines: {node: '>=0.8'}
@@ -2591,6 +2601,13 @@ packages:
       universalify: 2.0.1
     optionalDependencies:
       graceful-fs: 4.2.11
+    dev: true
+
+  /katex@0.16.22:
+    resolution: {integrity: sha512-XCHRdUw4lf3SKBaJe4EvgqIuWwkPSo9XoeO8GjQW94Bp7TWv9hNhzZjZ+OH9yf1UmLygb7DIT5GSFQiyt16zYg==}
+    hasBin: true
+    dependencies:
+      commander: 8.3.0
     dev: true
 
   /kind-of@6.0.3:
@@ -3700,7 +3717,7 @@ packages:
       - typescript
     dev: true
 
-  /vuepress-theme-hope@2.0.0-rc.93(markdown-it@14.1.0)(sass-embedded@1.89.2)(vuepress@2.0.0-rc.23):
+  /vuepress-theme-hope@2.0.0-rc.93(katex@0.16.22)(markdown-it@14.1.0)(sass-embedded@1.89.2)(vuepress@2.0.0-rc.23):
     resolution: {integrity: sha512-3CB+3zdoLx666UwuiohTqKhK2wI6UckLaXqz0B5AhyNAgFH6kVzI3twaqnvXh2bXaijF/70n3MRAm4b/gZQQGw==}
     engines: {node: '>= 20.6.0', npm: '>=8', pnpm: '>=7', yarn: '>=2'}
     peerDependencies:
@@ -3765,7 +3782,7 @@ packages:
       '@vuepress/plugin-markdown-hint': 2.0.0-rc.109(markdown-it@14.1.0)(vue@3.5.17)(vuepress@2.0.0-rc.23)
       '@vuepress/plugin-markdown-image': 2.0.0-rc.109(markdown-it@14.1.0)(vuepress@2.0.0-rc.23)
       '@vuepress/plugin-markdown-include': 2.0.0-rc.109(markdown-it@14.1.0)(vuepress@2.0.0-rc.23)
-      '@vuepress/plugin-markdown-math': 2.0.0-rc.109(markdown-it@14.1.0)(vuepress@2.0.0-rc.23)
+      '@vuepress/plugin-markdown-math': 2.0.0-rc.109(katex@0.16.22)(markdown-it@14.1.0)(vuepress@2.0.0-rc.23)
       '@vuepress/plugin-markdown-preview': 2.0.0-rc.109(markdown-it@14.1.0)(vuepress@2.0.0-rc.23)
       '@vuepress/plugin-markdown-stylize': 2.0.0-rc.109(markdown-it@14.1.0)(vuepress@2.0.0-rc.23)
       '@vuepress/plugin-markdown-tab': 2.0.0-rc.109(markdown-it@14.1.0)(vuepress@2.0.0-rc.23)
