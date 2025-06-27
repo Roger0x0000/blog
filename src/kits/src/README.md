@@ -3,8 +3,8 @@ home: true
 icon: gears
 title: 工具 kits
 heroImage: /avatar.png
-bgImage: https://theme-hope-assets.vuejs.press/bg/6-light.svg
-bgImageDark: https://theme-hope-assets.vuejs.press/bg/6-dark.svg
+bgImage: /assets/bg/6-light.svg
+bgImageDark: /assets/bg/6-dark.svg
 bgImageStyle:
   background-attachment: fixed
 heroText: 工具页面
@@ -23,8 +23,8 @@ actions:
 highlights:
   - header: 苏喵的小工具
     image: /assets/image/markdown.svg
-    bgImage: https://theme-hope-assets.vuejs.press/bg/2-light.svg
-    bgImageDark: https://theme-hope-assets.vuejs.press/bg/2-dark.svg
+    bgImage: /assets/bg/2-light.svg
+    bgImageDark: /assets/bg/2-dark.svg
     bgImageStyle:
       background-repeat: repeat
       background-size: initial
@@ -56,8 +56,8 @@ highlights:
 
   - header: 开发工具
     image: /assets/image/ui.svg
-    bgImage: https://theme-hope-assets.vuejs.press/bg/9-light.svg
-    bgImageDark: https://theme-hope-assets.vuejs.press/bg/9-dark.svg
+    bgImage: /assets/bg/9-light.svg
+    bgImageDark: /assets/bg/9-dark.svg
     features:
       - title: LaTeX Live
         icon: tabler:tex
@@ -76,8 +76,8 @@ highlights:
 
   - header: 其他工具
     image: /assets/image/blog.svg
-    bgImage: https://theme-hope-assets.vuejs.press/bg/5-light.svg
-    bgImageDark: https://theme-hope-assets.vuejs.press/bg/5-dark.svg
+    bgImage: /assets/bg/5-light.svg
+    bgImageDark: /assets/bg/5-dark.svg
     features:
       - title: Gif123
         icon: mdi:file-gif-box
@@ -96,8 +96,8 @@ highlights:
 
   - header: 使用项目与特别鸣谢
     image: /assets/image/advanced.svg
-    bgImage: https://theme-hope-assets.vuejs.press/bg/4-light.svg
-    bgImageDark: https://theme-hope-assets.vuejs.press/bg/4-dark.svg
+    bgImage: /assets/bg/4-light.svg
+    bgImageDark: /assets/bg/4-dark.svg
     features:
       - title: Mr.Hope
         icon: heart
