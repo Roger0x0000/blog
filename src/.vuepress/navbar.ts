@@ -5,7 +5,7 @@ export default navbar([
     "intro",
     "/demo/",
     "/posts/",
-	"/kits/src/",
+	"/kits/",
     {
         text: "项目 projects",
         icon: "star",
