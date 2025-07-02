@@ -11,7 +11,7 @@ export default sidebar({
         children: "structure",
     },
     {
-        text: "文章",
+        text: "笔记 notes",
         icon: "book",
         prefix: "posts/",
         children: [

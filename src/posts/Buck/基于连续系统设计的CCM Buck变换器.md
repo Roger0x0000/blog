@@ -24,8 +24,7 @@ sticky: false
 ---
 
 
-
-# 基于连续系统设计的CCM Buck变换器
+<!-- more -->
 
 ## 基本工作原理
 
