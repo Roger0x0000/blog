@@ -9,7 +9,7 @@ title: 基于连续系统设计的CCM Buck变换器
 #order: 3
 author: 口袋数字电源
 # 设置写作时间
-date: 2025-07-02
+date: 2025-07-01
 # 一个页面可以有多个分类
 category:
   - Buck
