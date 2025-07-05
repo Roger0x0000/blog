@@ -23,7 +23,8 @@ export default hopeTheme({
   navbar,
 
   // 侧边栏
-  sidebar,
+  //sidebar,
+  sidebar: false,
 
   // 页脚
   footer: "口袋数字电源",
