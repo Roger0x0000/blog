@@ -6,8 +6,8 @@ export default defineUserConfig({
   base: "/blog/",
 
   lang: "zh-CN",
-  title: "Roger",
-  description: "Roger的个人主页",
+  title: "口袋数字电源",
+  description: "口袋数字电源",
 
   theme,
   

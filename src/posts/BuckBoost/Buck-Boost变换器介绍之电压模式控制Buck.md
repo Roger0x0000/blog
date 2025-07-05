@@ -1,0 +1,730 @@
+---
+# 你可以自定义封面图片
+#cover: /assets/images/cover2.jpg
+# 这是页面的图标
+icon: pen-to-square
+# 这是文章的标题
+title: Buck-Boost变换器介绍之电压模式控制Buck
+# 这是侧边栏的顺序
+#order: 3
+author: 口袋数字电源
+# 设置写作时间
+date: 2025-07-05
+# 一个页面可以有多个分类
+category:
+  - Buck
+  - Boost
+  - Buck-Boost
+# 一个页面可以有多个标签
+tag:
+  - Buck
+  - Boost
+  - 3P3Z
+# 此页面会出现在星标文章中
+star: true
+# 此页面会在文章列表置顶
+sticky: false
+---
+
+本文主要介绍Buck-Boost 的工作原理、参数的计算和电压模式控制的Buck仿真。
+
+<!-- more -->
+
+## 参数计算
+
+### Buck-Boost 参数定义：
+
+定义输入电压的的范围如下：
+
+$Vin_{nom} = 24V , Vin_{max} = 36V , Vin_{min} = 12V$
+
+定义输出电压的的范围如下：
+
+$Vout_{nom} = 24V , Vout_{max} = 36V , Vout_{min} = 5V$
+
+定义输出的额定电流和最大电流：
+
+$Iout_{nom} = 5A , Iout_{max} = 5A$
+
+定义工作频率：
+
+$f_{switch} = 200kHz$
+
+### Buck-Boost电感计算
+
+Buck模式下，输入最大电压和最小输出电压的条件下，计算最小占空比：
+
+$$ D_{min} = \frac{Vout_{min}}{Vin_{max}} = 13.889 \%$$
+
+Buck模式下，定义电感电流波动量（25%的最大额定电流脉动）：
+
+$$ \Delta I_L = 0.25 \cdot Iout_{nom} =1.25A$$
+
+Buck模式下，最小的电感计算：
+
+$$Lmin_{Buck} = \frac{Vout_{min}}{\Delta I_L \cdot f_{switch}} \cdot( 1- D_{min}) = 17.22uH$$
+
+Boost模式下，输入额定电压和输出最大电压的的占空比：
+
+$$D_{Bo} = 1-\frac{Vin_{nom}}{Vout_{max}} 33.33 \%$$
+
+Boost模式下，取1A时Boost进入连续模式计算电感量：
+
+$$Iminb = 1A$$
+
+$$Lmin_{Boost} = \frac{Vout_{max} \cdot D_{Bo} \cdot (1- D_{Bo})^2}{2 \cdot Iminb \cdot f_{switch}} = 13.33uH$$
+
+
+综合上述计算结果，留有一定余量 取Buck-Boost电感：
+
+$$ L_{BB} = 22uH$$
+
+### Buck-Boost输出电容计算
+
+定义输出纹波电压：
+
+$$ \Delta Vout = 0.05V$$
+
+Buck模式下，计算出输出电容：
+
+$$Cmin_{Buck} = \frac{Vout_{min} \cdot (1 - \frac{Vout_{min}}{Vin_{max}})}{8 \cdot L_{BB} \cdot \Delta Vout \cdot ( f_{switch})^2} =12.232uF$$
+
+Boost模式下，计算输出电容
+
+$$Cmin_{Boost}=\frac{Iout_{nom} \cdot (1-\frac{Vin_{min}}{Vout_{max}})}{\Delta Vout \cdot f_{switch}} = 333.33 uF$$
+
+
+选择两个220uF的电容作为总输出电容：
+
+$$C_{BB}= 440 uF$$
+
+
+
+### MOS选型
+
+可以使用[Power Stage Designer 5](https://www.ti.com.cn/tool/cn/POWERSTAGE-DESIGNER) （或者仿真）查看MOSFET的电流和电压大小选择合适的MOSFET。
+
+假设电路上的MOSFET的最大电流为10A，则MOSFET选型的为最大电流2倍裕量以上（防止短路下电流过大冲击损坏），即选择大于20A的MOSFET。
+
+MOSFET选型的额定耐压大于最大输入电压的1.25倍裕量（防止尖峰击穿），即选择大于$1.25 \cdot 36V = 45V$的MOSFET。
+
+我们选择BSC0702LS-HXY，其参数如下：
+
+$$V_{DS} = 60V , I_{D} = 125A , R_{DS(ON)}<2.9mΩ @ V_{GS}=10V$$
+
+考虑到自然冷的情况，为尽量降低导通损耗和开关损耗，应用时选择导通内阻尽量小，且Coss较小的MOSFET。
+
+
+
+## Buck工作模式的基本工作原理
+
+### Buck工作模式 
+
+<center>
+<img src="/assets/blog_image/Buck_Boost/BuckMode_1.png">
+<center> Buck电路 </center>
+</center>
+
+<center>
+<img src="/assets/blog_image/Buck_Boost/BuckMode_2.png">
+<center> Buck电路波形 </center>
+</center>
+
+Buck（降压）工作模式是DC-DC转换器的一种基本拓扑结构，主要用于将输入电压转换为低于输入电压的输出电压。以下是其工作原理介绍：
+
+1) 电感充电阶段（Q1导通，Q3关断）
+
++ Q1闭合（TD1高电平），Q3断开（TD2低电平）
++ 输入电压VIN施加在电感上，电流线性增加
++ 输出电容充电
++ 电流路径如图橙色箭头所示
+
+2) 电感放电阶段（Q1关断，Q3导通）
+
++ Q1断开（TD1低电平），Q3闭合（TD2高电平）
++ 电感通过Q3续流释放能量，电流线性减小电感向负载释放能量
++ 输出电容向负载供电 
++ 电流路径如图红色箭头所示
+
+
+原则上此模式下会期望Q2长闭，但是Q2需要自举驱动，Q4就要导通一段时间维持自举电压。所以在Buck工作模式下，软件会设定Q2的占空比为90%，Q4的占空比为10%（占空比太小会自举失败，需要根据实际情况确定Q4占空比大小）。
+
+<center>
+<img src="/assets/blog_image/Buck_Boost/BuckMode_3.png">
+<center> Buck电路 零点和极点的计算 </center>
+</center>
+
+根据硬件的参数，计算出Buck电路的LC双极点、ESR零点和低频增益的大小。
+
+$$f_{LC} =\frac{1}{2\cdot \pi \sqrt{L \cdot C}} = 1617Hz$$
+
+$$f_{esr} = \frac{1}{2\cdot \pi \cdot ESR \cdot C} = 13649.652Hz$$
+
+$$ Gain = 20 \cdot log_{10}(\frac{Vin}{V_{ramp}}) = 20 \cdot log_{10}(\frac{12}{1}) = 21.58dB$$
+
+计算的Python代码如下：
+
+::: details
+```Python
+import math
+
+# 电感参数
+L = 22 * math.pow(10,-6) #uH
+R_L = 0
+# 电容参数
+C = 220 * math.pow(10,-6)*2.0 #uF
+R_C = 53*math.pow(10,-3)/2.0 #mR
+
+
+f_LC = 1/(2*math.pi*math.sqrt(L*C))
+f_ESR = 1/(2*math.pi*R_C*C)
+print("f_LC",f_LC)
+print("f_ESR",f_ESR)
+print("Gain",20*math.log10(12.0/1.0))
+
+"""
+f_LC 1617.642144129948
+f_ESR 13649.65206620029
+Gain 21.5836249209525
+"""
+```
+:::
+
+
+### 电压模式控制
+
+本节主要介绍如何使用STM32G474实现电压控制模式的Buck。
+
+<center>
+<img src="/assets/blog_image/Buck_Boost/Buck3P3Z.png">
+<center> Buck 数字控制框图 </center>
+</center>
+
+
+电路增益计算
+使用DSP控制，我们需要考虑PWM模块、ADC模块和反馈电路的增益。
+
+开发板的电压采用的是差分电路采样的，所以反馈电路的增益计算如下：
+
+$$G_{PD}=\frac{3300}{56000+51} =0.05887495316765089$$
+
+MCU的ADC采样电压范围是0~3.3V，12位ADC的输出范围是0~4095，所以ADC的增益如下：
+
+$$G_{ADC} = \frac{2^{12}-1}{3.3} = 1240.9$$
+
+假设输出电压为5V，则对应的ADC基准值计算如下：
+
+$$D_{ref}=5V×G_{PD}×G_{ADC}=365$$
+
+MCU使用的是高分辨率的PWM，PWM的时钟为170MHz×32=5440MHz，Buck的开关频率为200kHz，所以PWM的周期寄存器为27200。PWM的增益计算如下：
+$$G_{PWM}=\frac{1}{27200}$$
+
+Buck 数字控制的K如下：
+
+$$K = \frac{1}{G_{PD}×G_{ADC}×G_{PWM}}=372.30456$$
+
+计算的Python代码如下：
+
+::: details
+```Python
+import math
+
+Vout = 5.00
+PWM_Clock = 170.0e6*32
+PWM_frequency = 200.0e3 # Switching frequency
+PWM_Period = int(PWM_Clock/PWM_frequency)
+
+Gpd = 3300/(56000+51)
+Gadc = (math.pow(2,12)-1)/(3.3)
+Gpwm = (1)/(PWM_Period)
+
+K = 1/(Gpd*Gadc*Gpwm)
+Vref = Vout*Gpd*Gadc
+
+print("Gpd",Gpd)
+print("ADC",Gadc)
+print("PWM_Period",PWM_Period)
+print("Gpwm",Gpwm)
+print("K",K)
+"""
+Gpd 0.05887495316765089
+ADC 1240.909090909091
+PWM_Period 27200
+Gpwm 3.676470588235294e-05
+K 372.30456654456657
+"""
+```
+:::
+
+
+
+### III型数字补偿器
+
+
+连续系统III型补偿器有3个极点和2个零点，相位提升可以达到180°，传递函数如下。
+
+$$H_3 (s) = \frac{\omega_{p0}}{s} \cdot \frac{(1+\frac{s}{\omega_{z1}})}{(1+\frac{s}{\omega_{p1}})} \cdot \frac{(1+\frac{s}{\omega_{z2}})}{(1+\frac{s}{\omega_{p2}})}$$
+
+
+利用双线性变换，将$s=\frac{2}{T_s} \cdot \frac{1-z^{-1}}{1+z^{-1}}$带入上式，可得到如下形式的离散传递函数。
+
+$$H_3(z) = \frac{y[z]}{x[z]} = \frac{B_3 \cdot z^{-3} +B_2 \cdot z^{-2} + B_1 \cdot z^{-1} +B_0}{-A_3 \cdot z^{-3} - A_2 \cdot z^{-2} - A_1 \cdot z^{-1} + 1}$$
+
+
+由上式的离散传递函数可得III型补偿器的差分方程公式如下。
+
+
+$$y[n] = B_0\cdot x[n] +B_1\cdot x[n-1]+B_2\cdot x[n-2]+B_3\cdot x[n-3] + A_1\cdot y[n-1] + A_2\cdot y[n-2] + A_3\cdot y[n-3]$$
+
+
+
+其中：
+
+$$B_0 = \frac{(T_s \cdot \omega_{p0}\cdot \omega_{p1}\cdot \omega_{p2}\cdot(2+T_s\cdot \omega_{z1})\cdot(2+T_s\cdot \omega_{z2}))}{(2\cdot(2+T_s \cdot \omega_{p1})\cdot(2+T_s \cdot \omega_{p2})\cdot \omega_{z1}\cdot \omega_{z2})}$$
+
+$$B_1 = \frac{(T_s \cdot \omega_{p0}\cdot \omega_{p1}\cdot \omega_{p2}\cdot (-4+3\cdot T_s^2 \cdot \omega_{z1}\cdot \omega_{z2}+2\cdot T_s \cdot(\omega_{z1} + \omega_{z2})))}{(2\cdot(2+T_s \cdot \ \omega_{p1}) \cdot (2+T_s \cdot \ \omega_{p2})\cdot \omega_{z1}\cdot \omega_{z2})}$$
+
+$$B_2 = \frac{(T_s \cdot \omega_{p0}\cdot \omega_{p1}\cdot \omega_{p2}\cdot(-4+3\cdot T_s^2 \cdot \omega_{z1}\cdot \omega_{z2}-2\cdot T_s \cdot(\omega_{z1} + \omega_{z2})))}{(2\cdot(2+T_s \cdot \omega_{p1})\cdot(2+T_s \cdot \omega_{p2})\cdot \omega_{z1}\cdot \omega_{z2})}$$
+
+$$B_3 = \frac{(T_s \cdot \omega_{p0}\cdot \omega_{p1}\cdot \omega_{p2}\cdot(-2+T_s\cdot \omega_{z1})\cdot(-2+T_s\cdot \omega_{z2}))}{(2\cdot(2+T_s \cdot \omega_{p1})\cdot(2+T_s \cdot \omega_{p2})\cdot \omega_{z1}\cdot \omega_{z2})}$$
+
+
+$$A_1 = -\frac{(-12+T_s^2 \cdot \omega_{p1}\cdot \omega_{p2}  -2\cdot T_s \cdot( \omega_{p1} + \omega_{p2}))}{(2+T_s \cdot \omega_{p1})\cdot(2+T_s \cdot \omega_{p2})}$$
+
+$$A_2 = \frac{(-12+T_s^2 \cdot \omega_{p1}\cdot \omega_{p2} + 2\cdot T_s \cdot( \omega_{p1} + \omega_{p2}))}{(2+T_s \cdot \omega_{p1})\cdot(2+T_s \cdot \omega_{p2})}$$
+
+
+$$A_3 = \frac{(-2+T_s \cdot \omega_{p1}) \cdot (-2+T_s \cdot \omega_{p2})}{(2+T_s \cdot \omega_{p1})\cdot(2+T_s \cdot \omega_{p2})}$$
+
+
+注：极点和零点的单位都是rad/s
+
+系数的推导视频：[基于python - 学习电源系统模拟补偿器的数字化](https://www.bilibili.com/video/BV1Km4y1S7Sj/?spm_id_from=333.999.0.0)
+
+使用Python推导A和B系数，代码如下。
+
+::: details
+```Python
+# import libraries
+import numpy as np
+import sympy as sp
+
+# 符号定义
+wp0,wp1,wp2,wz1,wz2,s,z,Ts = sp.symbols('wp0 wp1 wp2 wz1 wz2 s z Ts')
+
+# 双线性变换
+s = (2/Ts)*((1-z**(-1))/(1+z**(-1)))
+
+# 连续系统III型补偿器
+H3P3Z = (wp0/s)*(((1+s/wz1)*(1+s/wz2))/((1+s/wp1)*(1+s/wp2)))
+
+# sympy.cancel()方法，将表达式化简为标准p/q形式，相对分子和分母幂次展开
+H3P3Z_D = sp.cancel(H3P3Z,z)
+
+# sympy.fraction()方法，提取表达式的分子和分母
+numerator,denominator = sp.fraction(H3P3Z_D)
+
+# sympy.collect()方法，配合coeff可将特定变量幂次的系数收集起来
+Scaled = sp.collect(denominator,z).coeff(z,3)
+
+# 先提取相应变量幂次的系数，接着借助sympy.factor()方法，找到数学表达式因式分解的因子。
+B3 = sp.factor(sp.collect(numerator,z).coeff(z,0)/Scaled)
+B2 = sp.factor(sp.collect(numerator,z).coeff(z,1)/Scaled)
+B1 = sp.factor(sp.collect(numerator,z).coeff(z,2)/Scaled)
+B0 = sp.factor(sp.collect(numerator,z).coeff(z,3)/Scaled)
+
+A3 = sp.factor(-sp.collect(denominator,z).coeff(z,0)/Scaled)
+A2 = sp.factor(-sp.collect(denominator,z).coeff(z,1)/Scaled)
+A1 = sp.factor(-sp.collect(denominator,z).coeff(z,2)/Scaled)
+
+#打印相关系数表达式
+print("H3P3Z_D = ",H3P3Z_D)
+print("\n")
+print("B3 = ",B3)
+print("B2 = ",B2)
+print("B1 = ",B1)
+print("B0 = ",B0)
+print("A3 = ",A3)
+print("A2 = ",A2)
+print("A1 = ",A1)
+
+
+# 计算实例化系数
+wp0_res = 2*np.pi*100
+wp1_res = 2*np.pi*10e3
+wp2_res = 2*np.pi*100e3
+
+wz1_res = 2*np.pi*100
+wz2_res = 2*np.pi*10e3
+Ts_res = 1.0/100e3
+
+# 借助sympy.subs()方法，将数学表达式中的变量或表达式的所有实例替换为其他变量或表达式或值。
+B3_res = B3.subs([(wp0,wp0_res),(wp1,wp1_res),(wp2,wp2_res),(wz1,wz1_res),(wz2,wz2_res),(Ts,Ts_res)])
+B2_res = B2.subs([(wp0,wp0_res),(wp1,wp1_res),(wp2,wp2_res),(wz1,wz1_res),(wz2,wz2_res),(Ts,Ts_res)])
+B1_res = B1.subs([(wp0,wp0_res),(wp1,wp1_res),(wp2,wp2_res),(wz1,wz1_res),(wz2,wz2_res),(Ts,Ts_res)])
+B0_res = B0.subs([(wp0,wp0_res),(wp1,wp1_res),(wp2,wp2_res),(wz1,wz1_res),(wz2,wz2_res),(Ts,Ts_res)])
+
+A3_res = A3.subs([(wp0,wp0_res),(wp1,wp1_res),(wp2,wp2_res),(wz1,wz1_res),(wz2,wz2_res),(Ts,Ts_res)])
+A2_res = A2.subs([(wp0,wp0_res),(wp1,wp1_res),(wp2,wp2_res),(wz1,wz1_res),(wz2,wz2_res),(Ts,Ts_res)])
+A1_res = A1.subs([(wp0,wp0_res),(wp1,wp1_res),(wp2,wp2_res),(wz1,wz1_res),(wz2,wz2_res),(Ts,Ts_res)])
+
+print("\n")
+#round，四舍五入保留几位小数
+print("B3 = ",round(B3_res,6))
+print("B2 = ",round(B2_res,6))
+print("B1 = ",round(B1_res,6))
+print("B0 = ",round(B0_res,6))
+print("A3 = ",round(A3_res,6))
+print("A2 = ",round(A2_res,6))
+print("A1 = ",round(A1_res,6))
+
+
+"""
+H3P3Z_D =  (Ts**3*wp0*wp1*wp2*wz1*wz2 - 2*Ts**2*wp0*wp1*wp2*wz1 - 2*Ts**2*wp0*wp1*wp2*wz2 + 4*Ts*wp0*wp1*wp2 + z**3*(Ts**3*wp0*wp1*wp2*wz1*wz2 + 2*Ts**2*wp0*wp1*wp2*wz1 + 2*Ts**2*wp0*wp1*wp2*wz2 + 4*Ts*wp0*wp1*wp2) + z**2*(3*Ts**3*wp0*wp1*wp2*wz1*wz2 + 2*Ts**2*wp0*wp1*wp2*wz1 + 2*Ts**2*wp0*wp1*wp2*wz2 - 4*Ts*wp0*wp1*wp2) + z*(3*Ts**3*wp0*wp1*wp2*wz1*wz2 - 2*Ts**2*wp0*wp1*wp2*wz1 - 2*Ts**2*wp0*wp1*wp2*wz2 - 4*Ts*wp0*wp1*wp2))/(-2*Ts**2*wp1*wp2*wz1*wz2 + 4*Ts*wp1*wz1*wz2 + 4*Ts*wp2*wz1*wz2 - 8*wz1*wz2 + z**3*(2*Ts**2*wp1*wp2*wz1*wz2 + 4*Ts*wp1*wz1*wz2 + 4*Ts*wp2*wz1*wz2 + 8*wz1*wz2) + z**2*(2*Ts**2*wp1*wp2*wz1*wz2 - 4*Ts*wp1*wz1*wz2 - 4*Ts*wp2*wz1*wz2 - 24*wz1*wz2) + z*(-2*Ts**2*wp1*wp2*wz1*wz2 - 4*Ts*wp1*wz1*wz2 - 4*Ts*wp2*wz1*wz2 + 24*wz1*wz2))
+
+
+B3 =  Ts*wp0*wp1*wp2*(Ts*wz1 - 2)*(Ts*wz2 - 2)/(2*wz1*wz2*(Ts*wp1 + 2)*(Ts*wp2 + 2))
+B2 =  Ts*wp0*wp1*wp2*(3*Ts**2*wz1*wz2 - 2*Ts*wz1 - 2*Ts*wz2 - 4)/(2*wz1*wz2*(Ts*wp1 + 2)*(Ts*wp2 + 2))
+B1 =  Ts*wp0*wp1*wp2*(3*Ts**2*wz1*wz2 + 2*Ts*wz1 + 2*Ts*wz2 - 4)/(2*wz1*wz2*(Ts*wp1 + 2)*(Ts*wp2 + 2))
+B0 =  Ts*wp0*wp1*wp2*(Ts*wz1 + 2)*(Ts*wz2 + 2)/(2*wz1*wz2*(Ts*wp1 + 2)*(Ts*wp2 + 2))
+A3 =  (Ts*wp1 - 2)*(Ts*wp2 - 2)/((Ts*wp1 + 2)*(Ts*wp2 + 2))
+A2 =  (Ts**2*wp1*wp2 + 2*Ts*wp1 + 2*Ts*wp2 - 12)/((Ts*wp1 + 2)*(Ts*wp2 + 2))
+A1 =  -(Ts**2*wp1*wp2 - 2*Ts*wp1 - 2*Ts*wp2 - 12)/((Ts*wp1 + 2)*(Ts*wp2 + 2))
+
+
+B3 =  0.394631
+B2 =  -0.758651
+B1 =  -0.392352
+B0 =  0.760930
+A3 =  -0.269864
+A2 =  0.265072
+A1 =  1.004792
+"""
+```
+:::
+
+## 开环仿真
+
+打开仿真文件 ***1_Buck_OpenLoop.plecs***
+
+<center>
+<img src="/assets/blog_image/Buck_Boost/Buck_PLECS1.png">
+<center> Buck PLECS仿真模型 </center>
+</center>
+
+
+Simulation -> Analysis Tools -> AC Sweep ->Start analysis，执行 AC Sweep，查看仿真的伯德图。
+
+<center>
+<img src="/assets/blog_image/Buck_Boost/Buck_PLECS2.png">
+<center> Buck的PLECS仿真伯德图 </center>
+</center>
+
+仿真的低频增益和LC双极点为（和前文的计算结果接近）：
+
+$$ Gain = 21.624 dB$$
+
+$$f_{LC} = 1600 Hz$$
+
+
+
+## 环路设计
+
+
+<center>
+<img src="/assets/blog_image/Buck_Boost/BuckMode_4.png">
+<center> Buck电路 和补偿器的零点和极点位置</center>
+</center>
+
+
+使用零极点对消方法，可以将III型补偿器的零极点放置于以下位置：
+
+| 零点或者极点的频率      | 说明 |
+| ----------- | ----------- |
+| $f_{sw}=200kHz$      | 开关频率或采样频率【单周期采样】       |
+| $f_{c}=2kHz$   | 预设的穿越频率        |
+| $f_{p0}=\frac{f_c}{V_{in}}=166Hz$   | 补偿器的第1个极点，可以调节穿越频率和低频增益|
+| $f_{p1}=13649.652Hz$   |补偿器的第2个极点，对消ESR零点|
+| $f_{p2}=100kHz$   |补偿器的第3个极点，放置于开关频率的一半，衰减高频信号|
+| $f_{z1}=1617Hz$   |补偿器的第1个零点，对消LC的一个极点|
+| $f_{z2}=1617Hz$   |补偿器的第2个零点，对消LC的一个极点|
+
+
+计算的Python代码如下：
+
+::: details
+```Python
+import os
+import math
+import numpy as np
+import matplotlib.pyplot as plt
+import control as ctrl
+import scipy
+
+
+print("control version ",ctrl._version.__version__)
+print("scipy version",scipy.__version__)     
+
+Vin = 12.0
+Vout = 5.00
+IoutMax = 4.0
+PWM_Clock = 170.0e6*32
+PWM_frequency = 200.0e3 # Switching frequency
+PhaseMargin = 50.0  # Phase margin
+PWM_Period = int(PWM_Clock/PWM_frequency)
+
+Gpd = 3300/(56000+51)
+
+Gadc = (math.pow(2,12)-1)/(3.3)
+
+Gpwm = (1)/(PWM_Period)
+
+print("Gpd",Gpd)
+print("ADC",Gadc)
+print("Gpwm",Gpwm)
+
+print("Gain",20*math.log10(12))
+
+
+K = 1/(Gpd*Gadc*Gpwm)
+Vref = Vout*Gpd*Gadc
+
+# 电感参数
+L = 22 * math.pow(10,-6) #uH
+R_L = 0
+# 电容参数
+C = 220 * math.pow(10,-6)*2.0 #uF
+R_C = 53*math.pow(10,-3)/2.0 #mR
+
+f_ESR = 1/(2*np.pi*R_C*C)
+f_LC = 1/(2*np.pi*np.sqrt(L*C))
+
+
+print("#define _5V_REF ("+str(int(5.0*Gpd*Gadc))+")")
+print("#define _3V3_REF ("+str(int(3.3*Gpd*Gadc))+")")
+
+
+def Loop_Bode_plt(index,Input_p0,Input_p1,Input_p2,Input_z1,Input_z2):
+    fp0 = Input_p0                 # Pole at the origin
+    fp1 = Input_p1                 # First pole
+    fp2=  Input_p2                 # Second pole
+    fz1 = Input_z1                 # First zero
+    fz2 = Input_z2                 # Second zero
+
+    # 计算实例化系数
+    wp0 = 2*math.pi*fp0
+    wp1 = 2*math.pi*fp1
+    wp2 = 2*math.pi*fp2
+
+    wz1 = 2*math.pi*fz1
+    wz2 = 2*math.pi*fz2
+    Ts = 1.0/PWM_frequency
+
+    B3 =  Ts*wp0*wp1*wp2*(Ts*wz1 - 2)*(Ts*wz2 - 2)/(2*wz1*wz2*(Ts*wp1 + 2)*(Ts*wp2 + 2))
+    B2 =  Ts*wp0*wp1*wp2*(3*Ts**2*wz1*wz2 - 2*Ts*wz1 - 2*Ts*wz2 - 4)/(2*wz1*wz2*(Ts*wp1 + 2)*(Ts*wp2 + 2))
+    B1 =  Ts*wp0*wp1*wp2*(3*Ts**2*wz1*wz2 + 2*Ts*wz1 + 2*Ts*wz2 - 4)/(2*wz1*wz2*(Ts*wp1 + 2)*(Ts*wp2 + 2))
+    B0 =  Ts*wp0*wp1*wp2*(Ts*wz1 + 2)*(Ts*wz2 + 2)/(2*wz1*wz2*(Ts*wp1 + 2)*(Ts*wp2 + 2))
+    A3 =  (Ts*wp1 - 2)*(Ts*wp2 - 2)/((Ts*wp1 + 2)*(Ts*wp2 + 2))
+    A2 =  (Ts**2*wp1*wp2 + 2*Ts*wp1 + 2*Ts*wp2 - 12)/((Ts*wp1 + 2)*(Ts*wp2 + 2))
+    A1 =  -(Ts**2*wp1*wp2 - 2*Ts*wp1 - 2*Ts*wp2 - 12)/((Ts*wp1 + 2)*(Ts*wp2 + 2))
+
+
+
+    print("/**")
+    print("fsw:",str(PWM_frequency),"Hz")
+    print("Period:",str(PWM_Period))
+    print("Gpd:",str(Gpd))
+    print("Gadc:",str(Gadc))
+    print("Gpwm:",str(Gpwm))
+
+    print("fp0:",str(fp0),"Hz")
+    print("fp1:",str(fp1),"Hz")
+    print("fp2:",str(fp2),"Hz")
+
+    print("fz1:",str(fz1),"Hz")
+    print("fz2:",str(fz2),"Hz")
+
+    print("*/")
+
+
+    print("#define BUCK_LOOP_REF ("+str(int(Vref))+")")
+    print("#define BUCK_LOOP_K ("+str(K)+")")
+    print("#define BUCK_LOOP_B0 ("+str(B0)+")")
+    print("#define BUCK_LOOP_B1 ("+str(B1)+")")
+    print("#define BUCK_LOOP_B2 ("+str(B2)+")")
+    print("#define BUCK_LOOP_B3 ("+str(B3)+")")
+
+    print("#define BUCK_LOOP_A1 ("+str(A1)+")")
+    print("#define BUCK_LOOP_A2 ("+str(A2)+")")
+    print("#define BUCK_LOOP_A3 ("+str(A3)+")")
+
+    ############ discrete z transfer function. ############
+    z = ctrl.tf('z')
+
+    f = np.logspace(1, 4, 201)
+    w = 2 * np.pi * f
+
+    Hpd = ((B3*z**(-3))+(B2*z**(-2))+(B1*z**(-1)) +B0 )/((-A3*z**(-3))-(A2*z**(-2))-(A1*z**(-1))+1)
+    Hpd.dt = Ts
+    mag,phase,omega=ctrl.bode_plot(Hpd,w,dB=True,Hz=True,deg=True,plot=True, grid=True, label='Hpd_'+str(index))
+
+
+fc = 2000.0
+fp0 = fc/Vin 
+fp1 = f_ESR
+fp2 = PWM_frequency/2
+fz1 = f_LC
+fz2 = f_LC
+
+Loop_Bode_plt(0,fp0,fp1,fp2,fz1,fz2)
+plt.legend(loc ="lower right")
+plt.legend()
+plt.show()
+
+
+"""
+control version  0.10.1
+scipy version 1.14.1
+Gpd 0.05887495316765089
+ADC 1240.909090909091
+Gpwm 3.676470588235294e-05
+Gain 21.5836249209525
+#define _5V_REF (365)
+#define _3V3_REF (241)
+/**
+fsw: 200000.0 Hz
+Period: 27200
+Gpd: 0.05887495316765089
+Gadc: 1240.909090909091
+Gpwm: 3.676470588235294e-05
+fp0: 166.66666666666666 Hz
+fp1: 13649.65206620029 Hz
+fp2: 100000.0 Hz
+fz1: 1617.642144129948 Hz
+fz2: 1617.642144129948 Hz
+*/
+#define BUCK_LOOP_REF (365)
+#define BUCK_LOOP_K (372.30456654456657)
+#define BUCK_LOOP_B0 (0.4599259450657033)
+#define BUCK_LOOP_B1 (-0.4143377140696815)
+#define BUCK_LOOP_B2 (-0.4587962595002099)
+#define BUCK_LOOP_B3 (0.415467399635175)
+#define BUCK_LOOP_A1 (1.4248617146639166)
+#define BUCK_LOOP_A2 (-0.28123152985866545)
+#define BUCK_LOOP_A3 (-0.14363018480525147)
+
+"""
+```
+:::
+
+
+使用Python代码计算出的补偿器的A和B系数如下（对应开发板中的环路参数代码）：
+
+```C
+/**
+fsw: 200000.0 Hz
+Period: 27200
+Gpd: 0.05887495316765089
+Gadc: 1240.909090909091
+Gpwm: 3.676470588235294e-05
+fp0: 166.66666666666666 Hz
+fp1: 13649.65206620029 Hz
+fp2: 100000.0 Hz
+fz1: 1617.642144129948 Hz
+fz2: 1617.642144129948 Hz
+*/
+#define BUCK_LOOP_REF (365)
+#define BUCK_LOOP_K (372.30456654456657)
+#define BUCK_LOOP_B0 (0.4599259450657033)
+#define BUCK_LOOP_B1 (-0.4143377140696815)
+#define BUCK_LOOP_B2 (-0.4587962595002099)
+#define BUCK_LOOP_B3 (0.415467399635175)
+#define BUCK_LOOP_A1 (1.4248617146639166)
+#define BUCK_LOOP_A2 (-0.28123152985866545)
+#define BUCK_LOOP_A3 (-0.14363018480525147)
+```
+
+
+##  闭环仿真
+
+打开仿真文件 ***4_Buck_CloseLoop_3P3Z _C Script.plecs***
+
+<center>
+<img src="/assets/blog_image/Buck_Boost/Buck_PLECS3.png">
+<center> Buck PLECS仿真模型 </center>
+</center>
+
+
+Simulation ->Start，执行仿真，然后双击Scope查看仿真的波形。
+
+其中环路的代码在仿真文件的 C-Script 模块中。
+
+<center>
+<img src="/assets/blog_image/Buck_Boost/Buck_PLECS4.png">
+<center> Buck的波形 </center>
+</center>
+
+
+
+## 实际电路环路测量
+
+
+| 测试条件|    |
+| ----------- | ----------- |
+| 输入电压 | 12V |
+| 输出电压 | 5V |
+| 输出负载 | 1.5Ω |
+| 环路分析仪器 | 鼎阳SDS814X HD + SAG1021I |
+| 按键说明 | 单击按键1 开机，单机按键2关机 |
+
+
+我们可以使用环路分析仪器在R37两端（LoopA和LoopB）注入信号，测量Buck电路的环路。
+
+<center>
+<img src="/assets/blog_image/Buck_Boost/Buck_HW_Loop.png">
+<center> Buck的电压采样电路 </center>
+</center>
+
+
+<center>
+<img src="/assets/blog_image/Buck_Boost/Buck_HW_Loop2.png">
+<center> Buck的环路测量 </center>
+</center>
+
+
+测量的结果如下：
+
+
+<center>
+<img src="/assets/blog_image/Buck_Boost/Buck_HW_Loop3.png">
+<center> 环路分析仪的设置 </center>
+</center>
+
+
+<center>
+<img src="/assets/blog_image/Buck_Boost/Buck_HW_Loop4.png">
+<center> 环路分析仪的测量结果 </center>
+</center>
+
+上图示波器测量的穿越频率，示波器会出现解析错误，可以使用示波器的光标进行测量。
+
+实际测量的数据会和理论存在差异，以实际测量的数据为准。
+
+| 测量结果|    |
+| ----------- | ----------- |
+| 穿越频率 | 3.2 kHz |
+| 相位裕量 | 45.78° |
+| 幅值裕量 | 15.69dB|
+
+
+## 参考文档
+
+
+[1] CBB024D硬件计算
+
+[2] Buck-boost converter using the STM32F334 Discovery kit
+
+‍
+:::tip
+本人在此发布博文（包括但不限于汉字、拼音、阿拉伯字母 、图片、影像，以及前述之各种任意组合等等）均为随意敲击键盘所出，用于检验本人电脑键盘录入、屏幕显示的机械、光电性能，并不代表本人观点。如需要详查请直接与键盘发明者及生产厂商法人代表联系。
+:::

@@ -7,7 +7,7 @@ icon: pen-to-square
 title: 基于连续系统设计的CCM Buck变换器
 # 这是侧边栏的顺序
 #order: 3
-author: Roger
+author: 口袋数字电源
 # 设置写作时间
 date: 2025-07-02
 # 一个页面可以有多个分类
@@ -32,7 +32,7 @@ sticky: false
 
 ## 参数计算
 
-这里是内容。
+
 
 ## 传递函数
 
