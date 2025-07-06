@@ -9,7 +9,7 @@ title: STM32G474数字PFC参数和环路计算
 order: 2
 author: 口袋数字电源
 # 设置写作时间
-date: 2025-07-06
+date: 2025-07-07
 # 一个页面可以有多个分类
 category:
   - PFC
@@ -147,7 +147,11 @@ $$
 G_{iComp} = \omega_{p0} \cdot \frac{1+ \frac{s}{\omega_{z1}}}{s}
 $$
 
-其中PI 补偿器的极点和零点分别为：$f_{p0} = 1630.6002043566411Hz ， f_{z1} = 1678.1992623545598Hz , (   \omega = 2\cdot \pi \cdot f)$
+其中PI 补偿器的极点和零点分别为：
+
+$$
+f_{p0} = 1630.6002043566411Hz ， f_{z1} = 1678.1992623545598Hz , (   \omega = 2\cdot \pi \cdot f)
+$$
 
 未补偿的回路$Gi_{Uncomp}$、PI补偿器$Gi_{Comp}$和补偿后$Gi_{Loop}$的伯德图如下：
 
@@ -338,7 +342,10 @@ $$
 G_{vComp} = \omega_{p0} \cdot \frac{1+ \frac{s}{\omega_{z1}}}{s}
 $$
 
-其中：$f_{p0} = 1.0 Hz ， f_{z1} = 5.873697418240959 Hz , (   \omega = 2\cdot \pi \cdot f)$  
+其中PI 补偿器的极点和零点分别为：
+$$
+f_{p0} = 1.0 Hz ， f_{z1} = 5.873697418240959 Hz , (   \omega = 2\cdot \pi \cdot f)
+$$
 
 未补偿的回路$Gv_{Uncomp}$、PI补偿器$Gv_{Comp}$和补偿后$Gv_{Loop}$的伯德图如下：
 
