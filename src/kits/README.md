@@ -21,7 +21,7 @@ actions:
     type: default
 
 highlights:
-  - header: 软件工具地址
+  - header: 软件工具下载地址
 
     bgImageStyle:
       background-repeat: repeat
@@ -29,13 +29,13 @@ highlights:
     features:
       - title: PLECS软件
         icon: mdi:terminal
-        details: PLECS 是一款专为电力电子领域设计的仿真软件。
+        details: PLECS 是一款专为电力电子领域设计的仿真软件（适合数字电源仿真）。
         link: https://downloadly.ir/software/engineering-specialized/plexim-plecs-standalone/
     
-      - title: PLECS软件
+      - title: SIMetrix-SIMPLIS 软件
         icon: tabler:brand-nodejs
-        details: PLECS软件
-        link: https://downloadly.ir/software/engineering-specialized/plexim-plecs-standalone/
+        details: SIMetrix/SIMPLIS 使工程师能够设计和仿真开关电力电子系统。它将精度和速度结合在一个功能齐全的设计环境中，使电源设计的仿真速度比 SPICE 快 10-50 倍（适合模拟电源仿真）。
+        link: https://downloadly.ir/software/engineering-specialized/simetrix/
 
       - title: PLECS软件
         icon: material-symbols:book-3-outline-rounded

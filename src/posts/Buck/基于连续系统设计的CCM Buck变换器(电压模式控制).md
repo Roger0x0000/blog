@@ -6,10 +6,10 @@ icon: pen-to-square
 # 这是文章的标题
 title: 基于连续系统设计的CCM Buck变换器(电压模式控制)
 # 这是侧边栏的顺序
-#order: 3
+order: 1
 author: 口袋数字电源
 # 设置写作时间
-date: 2025-07-01
+date: 2025-07-05
 # 一个页面可以有多个分类
 category:
   - Buck
